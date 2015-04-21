@@ -9,7 +9,7 @@ Data is all store in sqlite.
 Demo
 - SimpleTodo/demo/SimpleToDoDemo.gif 
 
-![Demo](SimpleTodoDemo.gif)
+![Demo](SimpleToDoDemo.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
