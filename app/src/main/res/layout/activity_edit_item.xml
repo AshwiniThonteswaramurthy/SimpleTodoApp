@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.andriod.simpletodoapp.EditItemActivity">
+
+    <TextView
+        android:id="@+id/tvEditItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:hint="@string/editItemLabel"
+        android:text="@string/tvEditItemLabel" />
+
+    <EditText
+        android:id="@+id/etEditThisItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvEditItemLabel"
+        android:text="@string/etEditItem" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvEditItemLabel"
+        android:layout_below="@+id/etEditThisItem"
+        android:onClick="updateItem"
+        android:text="@string/btnSaveItem" />
+
+</RelativeLayout>

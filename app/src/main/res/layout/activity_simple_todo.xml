@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SimpleTodoActivity">
+
+    <EditText
+        android:id="@+id/etAddItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/add_a_new_item_label" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="addItem"
+        android:text="@string/add_button" />
+
+    <TextView
+        android:id="@+id/tvEditItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnAdd"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/app_name_label" />
+
+    <ListView
+        android:id="@+id/lvItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etAddItem"
+        android:layout_alignEnd="@+id/btnAdd"
+        android:layout_below="@+id/tvEditItemLabel"
+        android:layout_toStartOf="@+id/btnAdd"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+        android:clickable="true"
+        android:longClickable="true"
+        android:touchscreenBlocksFocus="true" />
+
+</RelativeLayout>
