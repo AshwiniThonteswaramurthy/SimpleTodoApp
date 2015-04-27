@@ -12,4 +12,14 @@
     <string name="etEditItem">etEditItem</string>
     <string name="btnSaveItem">Save</string>
     <string name="onClickSaveItem">updateItem</string>
+    <string name="description_label">description</string>
+    <string name="priority_label">priority</string>
+    <string name="due_date_label">due_date</string>
+    <string name="title_activity_add_item">AddItemActivity</string>
+    <string name="tvAddItemLabel">addItem</string>
+    <string name="add_item_button">add</string>
+    <string name="Date">Date</string>
+    <string name="Time">Time</string>
+    <string name="title_activity_date">DateActivity</string>
+    <string name="title_activity_time">TimeActivity</string>
 </resources>

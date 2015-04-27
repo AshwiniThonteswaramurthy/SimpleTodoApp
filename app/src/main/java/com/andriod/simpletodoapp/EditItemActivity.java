@@ -7,23 +7,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class EditItemActivity extends ActionBarActivity {
 
-    private static final String OLD_ITEM = "oldItem";
-    private static final String NEW_ITEM = "newItem";
     private static final int RETURN_CODE = 143;
     private EditText editingItem;
-    private ToDoOpenHelper dbHelper = new ToDoOpenHelper(this);
+    private EditText etPriority;
+    private TextView tvDueDate;
+    private ToDoStore store = new ToDoStore(this);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
         editingItem = (EditText) findViewById(R.id.etEditThisItem);
-        editingItem.setText(getIntent().getExtras().getString(OLD_ITEM));
+        etPriority = (EditText) findViewById(R.id.etPriority);
+        tvDueDate = (TextView) findViewById(R.id.tvDueDate);
+        editingItem.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_DESCRIPTION));
+        etPriority.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_PRIORITY));
+        tvDueDate.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_DUE_DATE));
     }
 
 
@@ -50,13 +60,27 @@ public class EditItemActivity extends ActionBarActivity {
     }
 
     public void updateItem(View view) {
-        String oldValue = getIntent().getStringExtra(OLD_ITEM);
-        String updatedValue = editingItem.getText().toString();
-        dbHelper.updateItem(oldValue, updatedValue);
-        Toast.makeText(this, "Item updated", Toast.LENGTH_LONG).show();
+        Bundle oldItemDetails = getIntent().getExtras();
+        String oldDescription = oldItemDetails.getString(SimpleTodoActivity.OLD_DESCRIPTION);
+        String updatedDescription = editingItem.getText().toString();
+        int oldPriority = Integer.parseInt(oldItemDetails.getString(SimpleTodoActivity.OLD_PRIORITY));
+        Date dueDate = null;
+        try {
+            dueDate = dateFormat.parse(tvDueDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int updatedPriority = Integer.parseInt(etPriority.getText().toString());
+        Item oldItem = new Item(oldDescription, oldPriority, dueDate);
+        Item newItem = new Item(updatedDescription, updatedPriority, dueDate);
+        store.updateItem(oldItem, newItem);
         Intent data = new Intent();
-        data.putExtra(OLD_ITEM, oldValue);
-        data.putExtra(NEW_ITEM, updatedValue);
+        data.putExtra(SimpleTodoActivity.OLD_DESCRIPTION, oldDescription);
+        data.putExtra(SimpleTodoActivity.OLD_PRIORITY, oldPriority);
+        data.putExtra(SimpleTodoActivity.OLD_DUE_DATE, dueDate);
+        data.putExtra(SimpleTodoActivity.NEW_DESCRIPTION, updatedDescription);
+        data.putExtra(SimpleTodoActivity.NEW_PRIORITY, updatedPriority);
+        data.putExtra(SimpleTodoActivity.NEW_DUE_DATE, dueDate);
         setResult(RETURN_CODE, data);
         finish();
     }

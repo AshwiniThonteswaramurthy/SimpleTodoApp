@@ -7,34 +7,43 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class SimpleTodoActivity extends ActionBarActivity {
 
     private ListView lvItems;
-    private EditText etAddItem;
-    private ToDoOpenHelper dbHelper;
-    private static final int RETURN_CODE = 143;
-    ArrayList listOfItems;
-    ArrayAdapter listAdapter;
-    private static final String OLD_ITEM = "oldItem";
-    private static final String NEW_ITEM = "newItem";
+    private ToDoStore store;
+    private static final int EDIT_RETURN_CODE = 143;
+    private static final int ADD_RETURN_CODE = 144;
+    private ArrayList<Item> listOfItems;
+    ToDoItemAdapter listAdapter;
+    static final String OLD_DESCRIPTION = "old_description";
+    static final String OLD_PRIORITY = "old_priority";
+    static final String OLD_DUE_DATE = "old_due_date";
+    static final String NEW_DESCRIPTION = "new_description";
+    static final String NEW_PRIORITY = "new_priority";
+    static final String NEW_DUE_DATE = "new_due_date";
+    static final String ADD_DESCRIPTION = "description";
+    static final String ADD_PRIORITY = "priority";
+    static final String ADD_DUE_DATE = "duedate";
+    static final String ADD_ITEM = "additem";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_todo);
-        etAddItem = (EditText) findViewById(R.id.etAddItem);
         lvItems = (ListView) findViewById(R.id.lvItems);
-        dbHelper = new ToDoOpenHelper(this);
-        listOfItems = dbHelper.getAllItems();
-        listAdapter = new ArrayAdapter(this, R.layout.simplerow, listOfItems);
+        store = new ToDoStore(this);
+        listOfItems = store.getAllItems();
+        listAdapter = new ToDoItemAdapter(this, R.layout.complexrow, listOfItems);
         lvItems.setAdapter(listAdapter);
         setupListViewListener();
         editListViewListener();
@@ -64,29 +73,44 @@ public class SimpleTodoActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        listOfItems.remove(data.getExtras().getString(OLD_ITEM));
-        listOfItems.add(data.getExtras().getString(NEW_ITEM));
-        listAdapter.notifyDataSetChanged();
+        if (resultCode == EDIT_RETURN_CODE) {
+            Date oldDate = (Date) data.getExtras().get(OLD_DUE_DATE);
+            Item oldItem = new Item(data.getStringExtra(OLD_DESCRIPTION),
+                    (Integer) data.getExtras().get(OLD_PRIORITY), oldDate);
+            listOfItems.remove(oldItem);
+            String description = data.getExtras().getString(NEW_DESCRIPTION);
+            int priority = (Integer) data.getExtras().get(NEW_PRIORITY);
+            Date dueDate = (Date) data.getExtras().get(NEW_DUE_DATE);
+            listOfItems.add(new Item(description, priority, dueDate));
+            listAdapter.notifyDataSetChanged();
+        } else {
+            if (resultCode == ADD_RETURN_CODE) {
+                Date duedate = null;
+                try {
+                    duedate = dateFormat.parse(data.getStringExtra(SimpleTodoActivity.ADD_DUE_DATE));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Item addedItem = new Item(data.getStringExtra(SimpleTodoActivity.ADD_DESCRIPTION)
+                        , Integer.parseInt(data.getStringExtra(SimpleTodoActivity.ADD_PRIORITY))
+                        , duedate);
+                listOfItems.add(addedItem);
+                listAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     public void addItem(View view) {
-        String item = etAddItem.getText().toString();
-        if (checkForDuplicateItems(item)) {
-            dbHelper.insertTodo(item);
-            listOfItems.add(item);
-            listAdapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(this, item + " already exists", Toast.LENGTH_LONG).show();
-        }
-        etAddItem.setText("");
+        Intent intent = new Intent(SimpleTodoActivity.this, AddItemActivity.class);
+        startActivityForResult(intent, ADD_RETURN_CODE);
     }
 
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dbHelper.deleteItem((String) lvItems.getItemAtPosition(i));
-                listOfItems.remove(lvItems.getItemAtPosition(i));
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                store.deleteItem((Item) lvItems.getItemAtPosition(position));
+                listOfItems.remove(lvItems.getItemAtPosition(position));
                 listAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -97,18 +121,19 @@ public class SimpleTodoActivity extends ActionBarActivity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Item editItem = (Item) lvItems.getItemAtPosition(i);
+                listOfItems.remove(editItem);
                 Bundle bundle = new Bundle();
-                bundle.putString(OLD_ITEM, String.valueOf(lvItems.getItemAtPosition(i)));
+                bundle.putString(OLD_DESCRIPTION, editItem.getDescription());
+                bundle.putString(OLD_PRIORITY, String.valueOf(editItem.getPriority()));
+                bundle.putString(OLD_DUE_DATE, dateFormat.format(editItem.getDuedate()));
                 Intent intent = new Intent(SimpleTodoActivity.this, EditItemActivity.class);
-                intent.getStringExtra((String) lvItems.getItemAtPosition(i));
                 intent.putExtras(bundle);
-                startActivityForResult(intent, RETURN_CODE);
+                startActivityForResult(intent, EDIT_RETURN_CODE);
             }
         });
         lvItems.setLongClickable(true);
     }
 
-    private boolean checkForDuplicateItems(String item) {
-        return (dbHelper.getNumberOfRowsForAData(item) == 0);
-    }
+
 }

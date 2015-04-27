@@ -20,6 +20,18 @@
             android:name=".EditItemActivity"
             android:label="@string/title_activity_edit_item" >
         </activity>
+        <activity
+            android:name=".AddItemActivity"
+            android:label="@string/title_activity_add_item" >
+        </activity>
+        <activity
+            android:name=".DateActivity"
+            android:label="@string/title_activity_date" >
+        </activity>
+        <activity
+            android:name=".TimeActivity"
+            android:label="@string/title_activity_time" >
+        </activity>
     </application>
 
 </manifest>

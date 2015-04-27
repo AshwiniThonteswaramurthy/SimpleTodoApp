@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.andriod.simpletodoapp.AddItemActivity">
+
+    <TextView
+        android:id="@+id/tvAddItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/tvAddItemLabel" />
+
+    <EditText
+        android:id="@+id/etAddItemDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvAddItemLabel"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvAddItemLabel"
+        android:hint="@string/add_a_new_item_label" />
+
+    <EditText
+        android:id="@+id/etTodoItemPriority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/etAddItemDescription"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etAddItemDescription"
+        android:hint="Enter a new priority" />
+
+    <Button
+        android:id="@+id/btnAddItem"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:onClick="putItem"
+        android:text="Add" />
+
+    <TextView
+        android:id="@+id/tvDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignTop="@+id/btnDate"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tvDueTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_above="@+id/btnTime"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="selectDate"
+        android:text="@string/Date"
+        android:layout_above="@+id/tvDueTime"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/btnTime"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnDate"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:onClick="selectTime"
+        android:text="@string/Time"
+        android:layout_alignStart="@+id/btnDate" />
+</RelativeLayout>
