@@ -63,24 +63,6 @@ public class ToDoStore extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(db, TODO_TABLE_NAME, clause);
     }
 
-//    public Date getData(String description, int priority) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        String query = "select * from " + TODO_TABLE_NAME + " where " +
-//                ITEM_COLUMN_DESCRIPTION + " =\"" + description + "\"" + " and "
-//                + ITEM_COLUMN_PRIORITY + " =\"" + priority + "\"" + ";";
-//        Cursor result = db.rawQuery(query, null);
-//        result.moveToFirst();
-//        Date duedate = null;
-//        while (!result.isAfterLast()) {
-//            try {
-//                duedate = dateFormat.parse(result.getString(result.getColumnIndex(ITEM_COLUMN_DUE_DATE)));
-//            } catch (ParseException exception) {
-//
-//            }
-//        }
-//        return duedate;
-//    }
-
     public Integer deleteItem(Item itemName) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TODO_TABLE_NAME,

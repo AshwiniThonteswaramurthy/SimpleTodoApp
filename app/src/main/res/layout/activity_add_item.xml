@@ -27,15 +27,6 @@
         android:layout_below="@+id/tvAddItemLabel"
         android:hint="@string/add_a_new_item_label" />
 
-    <EditText
-        android:id="@+id/etTodoItemPriority"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/etAddItemDescription"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/etAddItemDescription"
-        android:hint="Enter a new priority" />
-
     <Button
         android:id="@+id/btnAddItem"
         style="?android:attr/buttonStyleSmall"
@@ -51,10 +42,10 @@
         android:id="@+id/tvDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/btnDate"
-        android:layout_alignParentStart="true" />
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/tvDueTime"
@@ -62,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_above="@+id/btnTime"
+        android:layout_alignBottom="@+id/btnTime"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -71,7 +62,7 @@
         android:layout_height="wrap_content"
         android:onClick="selectDate"
         android:text="@string/Date"
-        android:layout_above="@+id/tvDueTime"
+        android:layout_above="@+id/btnTime"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -79,10 +70,18 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/btnDate"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:onClick="selectTime"
         android:text="@string/Time"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/btnDate"
         android:layout_alignStart="@+id/btnDate" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/etAddItemDescription"
+        android:layout_alignEnd="@+id/btnDate" />
 </RelativeLayout>

@@ -24,23 +24,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvAddItemLabel"
-        android:text="@string/etEditItem" />
-
-    <EditText
-        android:id="@+id/etPriority"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etEditThisItem" />
+        android:layout_below="@+id/tvAddItemLabel" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvAddItemLabel"
-        android:layout_below="@+id/etEditThisItem"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:onClick="updateItem"
         android:text="@string/btnSaveItem" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="cancelItem"
+        android:text="cancel" />
 
     <TextView
         android:id="@+id/tvDueDate"
@@ -48,6 +50,16 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnSave"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etPriority" />
+        android:layout_below="@+id/etEditThisItem" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etEditThisItem"
+        android:layout_marginTop="38dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
 
 </RelativeLayout>

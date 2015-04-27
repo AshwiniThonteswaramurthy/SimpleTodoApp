@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -19,7 +21,7 @@ public class EditItemActivity extends ActionBarActivity {
 
     private static final int RETURN_CODE = 143;
     private EditText editingItem;
-    private EditText etPriority;
+    private Spinner priority;
     private TextView tvDueDate;
     private ToDoStore store = new ToDoStore(this);
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -29,10 +31,16 @@ public class EditItemActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
         editingItem = (EditText) findViewById(R.id.etEditThisItem);
-        etPriority = (EditText) findViewById(R.id.etPriority);
+        priority = (Spinner) findViewById(R.id.spinner2);
         tvDueDate = (TextView) findViewById(R.id.tvDueDate);
         editingItem.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_DESCRIPTION));
-        etPriority.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_PRIORITY));
+        priority.setSelection(Integer.parseInt(getIntent().getExtras().getString(SimpleTodoActivity.OLD_PRIORITY)));
+        priority = (Spinner) findViewById(R.id.spinner2);
+        String[] items = new String[]{"1", "2", "3", "4", "5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+        priority.setAdapter(adapter);
+        int pri = Integer.parseInt(getIntent().getExtras().getString(SimpleTodoActivity.OLD_PRIORITY)) - 1;
+        priority.setSelection(pri);
         tvDueDate.setText(getIntent().getExtras().getString(SimpleTodoActivity.OLD_DUE_DATE));
     }
 
@@ -70,7 +78,7 @@ public class EditItemActivity extends ActionBarActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        int updatedPriority = Integer.parseInt(etPriority.getText().toString());
+        int updatedPriority = Integer.parseInt(priority.getSelectedItem().toString());
         Item oldItem = new Item(oldDescription, oldPriority, dueDate);
         Item newItem = new Item(updatedDescription, updatedPriority, dueDate);
         store.updateItem(oldItem, newItem);
@@ -82,6 +90,10 @@ public class EditItemActivity extends ActionBarActivity {
         data.putExtra(SimpleTodoActivity.NEW_PRIORITY, updatedPriority);
         data.putExtra(SimpleTodoActivity.NEW_DUE_DATE, dueDate);
         setResult(RETURN_CODE, data);
+        finish();
+    }
+
+    public void cancelItem(View view) {
         finish();
     }
 }

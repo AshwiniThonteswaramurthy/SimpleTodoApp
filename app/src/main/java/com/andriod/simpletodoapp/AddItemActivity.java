@@ -9,8 +9,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,23 +27,28 @@ public class AddItemActivity extends ActionBarActivity implements TimePickerDial
     private EditText etAddItem;
     private TextView tvDueDate;
     private TextView tvDueTime;
-    private EditText priority;
+    private Spinner priority;
     private ToDoStore store;
     private static final int ADD_RETURN_CODE = 144;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+    private Spinner dropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         etAddItem = (EditText) findViewById(R.id.etAddItemDescription);
-        priority = (EditText) findViewById(R.id.etTodoItemPriority);
+        priority = (Spinner) findViewById(R.id.spinner1);
         tvDueDate = (TextView) findViewById(R.id.tvDueDate);
         tvDueTime = (TextView) findViewById(R.id.tvDueTime);
         store = new ToDoStore(this);
         Date currentDate = new Date();
         tvDueDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate));
         tvDueTime.setText(new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(currentDate));
+        dropdown = (Spinner) findViewById(R.id.spinner1);
+        String[] items = new String[]{"1", "2", "3", "4", "5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
     }
 
     @Override
@@ -72,7 +79,7 @@ public class AddItemActivity extends ActionBarActivity implements TimePickerDial
 
     public void putItem(View view) {
         String description = etAddItem.getText().toString();
-        int priorityNum = Integer.parseInt(priority.getText().toString());
+        int priorityNum = Integer.parseInt(priority.getSelectedItem().toString());
         String date = tvDueDate.getText().toString();
         String time = tvDueTime.getText().toString();
         Date dueDate = null;
@@ -86,7 +93,7 @@ public class AddItemActivity extends ActionBarActivity implements TimePickerDial
             store.insertTodo(newItem);
             Intent data = new Intent();
             data.putExtra(SimpleTodoActivity.ADD_DESCRIPTION, description);
-            data.putExtra(SimpleTodoActivity.ADD_PRIORITY, priority.getText().toString());
+            data.putExtra(SimpleTodoActivity.ADD_PRIORITY, (String) dropdown.getSelectedItem());
             data.putExtra(SimpleTodoActivity.ADD_DUE_DATE, dateFormat.format(dueDate));
             setResult(ADD_RETURN_CODE, data);
             finish();
