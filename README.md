@@ -2,7 +2,8 @@ Simple Todo App
 
 This is a simple todo application for providing a great overview of your tasks. 
 
-User stories:
+User stories
+============
 
    * [x] Required: User can view a list of todo items. 
    * [x] Required: User can click on a todo item to edit the description. 
@@ -14,9 +15,14 @@ User stories:
    * [x] Optional: Added support for selecting priority of each todo item between 1 and 5
 
 Demo of all the user stories
-
+============================
+1. Adding Item
 ![Add Todo Item Demo](AddTodoItem.gif)
+
+2. Delete Item
 ![Delete Todo Item Demo](DeleteTodoItem.gif)
+
+3. Edit Item
 ![Edit Todo Item Demo](EditTodoItem.gif)
 
 
