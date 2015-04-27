@@ -17,12 +17,18 @@ User stories
 Demo of all the user stories
 ============================
 1. Adding Item
+--------------
+
 ![Add Todo Item Demo](AddTodoItem.gif)
 
 2. Delete Item
+--------------
+
 ![Delete Todo Item Demo](DeleteTodoItem.gif)
 
 3. Edit Item
+-------------
+
 ![Edit Todo Item Demo](EditTodoItem.gif)
 
 
